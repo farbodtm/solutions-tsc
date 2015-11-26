@@ -5,6 +5,7 @@ int main() {
   int n, t, c;
   cin >> n >> t >> c;
   int tmp;
+
   vector<int> arr;
   cin >> tmp;
 
