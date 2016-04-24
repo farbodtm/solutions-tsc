@@ -3,11 +3,8 @@ using namespace std;
 typedef long long ll;
 typedef pair<double, double> point;
 
-double area(point p1, point p2, point p3, point p4) {
-  double t1 = 0.5 * abs(((p1.first - p3.first)*(p2.second-p1.second))-((p1.first-p2.first)*(p3.second-p1.second)));
-  double t2 = 0.5 * abs(((p1.first - p4.first)*(p2.second-p1.second))-((p1.first-p2.first)*(p4.second-p1.second)));
-  if (t1 == 0 || t2 == 0) return 0.0;
-  return t1+t2;
+double area(point p1, point p2, point p3) {
+  return 0.5 * (((p2.first - p1.first)*(p3.second-p2.second))-((p2.second-p1.second)*(p3.first-p2.first)));
 }
 
 int main() {
@@ -19,16 +16,26 @@ int main() {
     cin >> a >> b;
     points.push_back(make_pair(a, b));
   }
-  double mx = 0;
+  double ans = INT_MIN;
   for (int i = 0; i < n; i++) {
     for (int j = i + 1; j < n; j++) {
-      for (int k = j + 1; k < n; k++) {
-        for (int l = k + 1; l < n; l++) {
-          mx = max(mx, area(points[i], points[j], points[k], points[l]));
+      double mn = -1;
+      double mx = -1;
+      for (int k = 0; k < n; k++) {
+        if (k != i && k != j) {
+          double a = area(points[i], points[j], points[k]);
+          if (a < 0) {
+            mn = max(mn, -a);
+          } else {
+            mx = max(mx, a);
+          }
         }
+      }
+      if (mn >= 0 && mx >= 0) {
+        ans = max(ans, mn + mx);
       }
     }
   }
-  cout << mx << endl;
+  printf("%lf", ans);
   return 0;
 }
