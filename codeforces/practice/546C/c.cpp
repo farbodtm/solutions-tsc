@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 
 int main() {
-  int n;
+  int n,j2;
   cin >> n;
   int k1, k2;
   cin >> k1;
