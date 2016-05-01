@@ -1,3 +1,6 @@
 test
 *.out
 *.swp
+*.swo
+0
+pbcopy
