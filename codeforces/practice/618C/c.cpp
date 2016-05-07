@@ -3,8 +3,6 @@
 #include <vector>
 #include <utility>
 #include <cmath>
-#include <cstdio>
-#include <cstdlib>
 
 using namespace std;
 
@@ -33,12 +31,13 @@ bool lie(const Point& a, const Point& b, const Point& c) {
 }
 
 int main() {
+  std::cin.sync_with_stdio(false);
   int n;
-  scanf("%d", &n);
+  cin >> n;
   vector<Point> stars(n);
-  ll x,y;
+  double x,y;
   for (int i = 0; i < n; i++) {
-    scanf("%I64d  %I64d ", &x, &y);
+    cin >> x >> y;
     stars[i].x = x;
     stars[i].y = y;
     stars[i].i = i+1;
