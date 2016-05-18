@@ -11,46 +11,48 @@ int main() {
   string command;
   cin >> command;
   p--;
+  vector<int> l(n+1), r(n+1), d(n+1);
+  for (int i = 0; i < n; i++) {
+    l[i] = i-1, r[i] = i+1;
+  }
+
+  stack<int> s;
+  for (int i = 0; i < n; i++) {
+    if (line[i] == '(') s.push(i);
+    else {
+      int pos = s.top();
+      s.pop();
+      d[pos] = i;
+      d[i] = pos;
+    }
+  }
+  l[0] = n;
+  r[n] = 0;
+
   for (int i = 0; i < command.length(); i++) {
     switch(command[i]) {
       case 'L':
-        p--;
+        p = l[p];
         break;
       case 'R':
-        p++;
+        p = r[p];
         break;
       case 'D':
-        if (line[p] == '(') {
-          int o = p;
-          int open = 1;
-          while (open != 0) {
-            o++;
-            if (line[o] == ')') open--;
-            else open++;
-          }
-          line.replace(p, o-p+1, "");
-          if (p >= line.length()) p = line.length()-1;
-
-        } else {
-          int o = p;
-          int open = 1;
-          while (open != 0) {
-            o--;
-            if (line[o] == '(') open--;
-            else open++;
-          }
-          line.replace(o, p-o+1, "");
-          p = o;
-          if (p >= line.length()) p = line.length()-1;
-        }
+        int pf = d[p];
+        if (pf > p) swap(p, pf);
+        l[r[p]] = l[pf];
+        r[l[pf]] = r[p];
+        p = r[p];
+        if (p==n) p =l[p];
         break;
     }
-    //cout << line << endl;
-    //cout << p << endl;
-    //cout << "---" << endl;
   }
-  cout << line << endl;
-  
+  p = n;
+  while (true) {
+    p = r[p];
+    if (p == n) break;
+    cout << line[p];
+  }
 
   return 0;
 }

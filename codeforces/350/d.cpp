@@ -2,6 +2,18 @@
 using namespace std;
 typedef long long ll;
 
+bool check(const vector<int>& have,const vector<int>& need, ll num, ll m) {
+  for (int i = 0; i < have.size(); i++) {
+    if (have[i]/need[i] >= num) {
+      continue;
+    } else {
+      m -= num*need[i]-have[i];
+    }
+    if (m < 0) return false;
+  }
+  return true;
+}
+
 int main() {
   int n, m;
   cin >> n >> m;
@@ -14,42 +26,13 @@ int main() {
   for (int i = 0; i < n; i++) {
     cin >> have[i];
   }
-
-  vector<int> d(n);
-  int mn = INT_MAX;
-  for (int i = 0; i < n; i++) {
-    mn = min(mn, have[i]/need[i]);
+  ll l = 0;
+  ll r = INT_MAX;
+  while (l < r) {
+    ll mid = (l+r+1)/2;
+    if (check(have, need, mid, m)) l = mid;
+    else r = mid-1;
   }
-
-  int ans = 0;
-  ans += mn;
-  for (int i = 0; i < n; i++) {
-    have[i] -= (mn * need[i]);
-  }
-
-  while (m > 0) {
-    bool allg = true;
-    ll all0 = 0;
-    for (int i = 0; i < n; i++) {
-      have[i] -= need[i];
-      if (have[i] < 0) {
-        m += have[i];
-        have[i] = 0; 
-        all0++;
-      }
-      if (m < 0) allg = false;
-    }
-    if (allg) ans++;
-    if (all0 == n) break;
-  }
-  if (m > 0) {
-    ll needsum = 0;
-    for (int i = 0; i < n; i++) {
-      needsum += need[i];
-    }
-    ans += m/needsum;
-  }
-  cout << ans << endl;
-
+  cout << l << endl;
   return 0;
 }
